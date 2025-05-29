@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소상공인을 위한 AI 비즈니스 실전 가이드</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            min-height: 100vh;
+        }
+        
+        .cover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.05"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            z-index: 1;
+        }
+        
+        .cover > * {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cover h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .cover .subtitle {
+            font-size: 1.3em;
+            font-weight: 300;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .cover .price-tag {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            padding: 15px 30px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        
+        .cover .target {
+            font-size: 1em;
+            opacity: 0.8;
+        }
+        
+        .content {
+            padding: 50px 40px;
+        }
+        
+        .prologue {
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .intro-text {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 30px;
+            text-align: center;
+            font-style: italic;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(240, 147, 251, 0.3);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .label {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+        
+        .story-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #667eea;
+        }
+        
+        .story-title {
+            color: #667eea;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .story-title::before {
+            content: '💡';
+            margin-right: 10px;
+        }
+        
+        .case-study {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #2c3e50;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 8px 20px rgba(132, 250, 176, 0.3);
+        }
+        
+        .case-study h4 {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .case-study h4::before {
+            content: '🎯';
+            margin-right: 10px;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #8b4513;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 5px solid #ff6b6b;
+        }
+        
+        .warning-box h4 {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .warning-box h4::before {
+            content: '⚠️';
+            margin-right: 10px;
+        }
+        
+        .promise-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .promise-section h3 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .promise-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .promise-list li {
+            background: rgba(255,255,255,0.1);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .promise-list li::before {
+            content: '✅';
+            margin-right: 10px;
+        }
+        
+        .author-note {
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .emphasis {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        p {
+            margin-bottom: 20px;
+        }
+        
+        /* 새로운 PART용 스타일 */
+        .part-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            margin: 50px 0 30px 0;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .part-number {
+            font-size: 1.5em;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .part-title {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .part-subtitle {
+            font-size: 1.1em;
+            font-weight: 300;
+            opacity: 0.8;
+        }
+        
+        .chapter {
+            margin: 40px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .chapter-title {
+            color: #667eea;
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .sub-chapter {
+            margin: 25px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .sub-chapter h4 {
+            color: #667eea;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+            }
+            
+            .cover {
+                padding: 40px 20px;
+            }
+            
+            .cover h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .section-title {
+                font-size: 1.8em;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 표지 -->
+        <div class="cover">
+            <h1>소상공인을 위한<br>AI 비즈니스 실전 가이드</h1>
+            <div class="subtitle">월 매출 3천만원 이하 사업자를 위한 검증된 AI 활용법</div>
+            <div class="price-tag">가격: 12,800원</div>
+            <div class="target">타겟: 소상공인, 자영업자, 중소기업 대표</div>
+        </div>
+
+        <!-- 본문 시작 -->
+        <div class="content">
+            <!-- 프롤로그 -->
+            <section class="prologue">
+                <h2 class="section-title">🎯 프롤로그<br>왜 지금 AI가 소상공인의 생존 도구인가?</h2>
+                
+                <div class="intro-text">
+                    안녕하세요. 영업 10년, 금융회사 민원팀장 2년, 그리고 마케팅 대행사를 5년째 운영하고 있는 한 명의 소상공인입니다.
+                </div>
+
+                <p>여러분과 똑같은 소상공인으로서, 오늘 이 글을 쓰는 이유는 거창하지 않습니다. <span class="highlight">제가 AI로 돈을 벌었고, 여러분도 굳이 저처럼 시간과 돈을 허비하지 않고 같은 결과를 얻었으면 하는 솔직한 마음</span> 때문입니다.</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">0명</div>
+                        <div class="label">현재 대행사 직원 수<br>(AI가 모든 업무 처리)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">4개월</div>
+                        <div class="label">담당 클라이언트<br>1억 매출 달성 기간</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">수백만원</div>
+                        <div class="label">AI 학습에 투자한<br>총 비용</div>
+                    </div>
+                </div>
+
+                <div class="story-section">
+                    <h3 class="story-title">제가 AI에 빠진 이유</h3>
+                    <p>ChatGPT가 처음 발표됐을 때부터 유료로 사용하기 시작했습니다. 처음엔 단순한 호기심이었지만, 몇 개월 사용해보니 <span class="emphasis">'이건 장난이 아니다'</span>라는 생각이 들었죠.</p>
+                    
+                    <p>수백만원을 들여가며 각종 AI 강의를 듣고, 실제 현장에서 적용해봤습니다. 그 결과? <span class="highlight">직원 없이도 대행사를 운영할 수 있게 됐고, 담당한 회사를 4개월 만에 1억 매출까지 올려드릴 수 있었습니다.</span></p>
+                </div>
+
+                <div class="case-study">
+                    <h4>실제 사례: 네이버 블로그 GPTS의 기적</h4>
+                    <p>제가 대행사 운영용으로 만든 GPTS 중에서 네이버 블로그용 도구가 있었습니다. 이걸 두 분에게 알려드렸는데, 결과가 놀라웠습니다:</p>
+                    
+                    <ul style="margin: 15px 0; padding-left: 20px;">
+                        <li><strong>첫 번째 분:</strong> 본인 사업에 적용 후 매출이 2~3배 증가</li>
+                        <li><strong>두 번째 분:</strong> 아예 대행사 운영법까지 전수받아 현재 AI로 하루 1시간씩 작업하며 월 1천만원 이상 수익</li>
+                    </ul>
+                    
+                    <p><span class="emphasis">이분들이 특별해서가 아닙니다. 단지 올바른 방법을 알고 실행했을 뿐이죠.</span></p>
+                </div>
+
+                <div class="warning-box">
+                    <h4>제가 겪은 쓰라린 실패 경험</h4>
+                    <p>하지만 저도 처음부터 성공한 건 아닙니다. 수많은 <span class="emphasis">'강의팔이'</span>들의 고액 강의에 속아서 돈만 날리고 제대로 된 피드백도 받지 못한 경험이 여러 번 있었죠.</p>
+                    
+                    <p>주변 소상공인들도 마찬가지였습니다. 모두들 <span class="emphasis">'강의 콜렉터'</span>라는 웃지 못할 별명까지 얻으며 이 강의 저 강의 들어봐도 실제 사업에는 도움이 되지 않는 현실을 반복했습니다.</p>
+                    
+                    <p>그때 깨달았습니다. <span class="highlight">단순한 전자책이나 강의가 아니라, 정말 현장에서 써먹을 수 있는 실용적인 가이드가 필요하다는 것을</span>.</p>
+                </div>
+
+                <h3 style="color: #667eea; font-size: 1.5em; margin: 40px 0 20px 0;">🤔 소상공인들이 AI를 망설이는 진짜 이유</h3>
+                
+                <p>현장에서 만난 많은 소상공인들과 이야기해보니, AI 도입을 망설이는 이유가 명확했습니다:</p>
+
+                <div style="background: #f8f9fa; padding: 25px; border-radius: 10px; margin: 20px 0;">
+                    <p><strong>💼 시간 부족:</strong> 대표가 직접 학습하기엔 해야 할 일이 너무 많다</p>
+                    <p><strong>👥 인력 부담:</strong> AI 전문 직원을 뽑자니 관리가 부담스럽다</p>
+                    <p><strong>💰 비용 걱정:</strong> 외주나 대행사에 맡기자니 비용이 만만치 않다</p>
+                    <p><strong>❓ 정보 부족:</strong> 도대체 어디서부터 시작해야 할지 모르겠다</p>
+                </div>
+
+                <p><span class="emphasis">바로 이런 문제들 때문에 이 책을 쓰게 됐습니다.</span></p>
+
+                <div class="promise-section">
+                    <h3>이 책을 읽고 나면 여러분은...</h3>
+                    <ul class="promise-list">
+                        <li>AI라는 미지의 영역에 자신감 있게 발을 딛을 수 있습니다</li>
+                        <li>직원이나 대행사 비용의 10분의 1로 같은 효과를 낼 수 있습니다</li>
+                        <li>하루 종일 반복 업무에 시달리는 대신 더 중요한 일에 집중할 수 있습니다</li>
+                        <li>AI를 활용해 경쟁사보다 한 발 앞서 나갈 수 있습니다</li>
+                    </ul>
+                </div>
+
+                <h3 style="color: #667eea; font-size: 1.5em; margin: 40px 0 20px 0;">📊 2025년 AI 도입 vs 미도입 사업체의 격차</h3>
+
+                <p>최근 한 조사에 따르면, AI를 적극 도입한 소상공인과 그렇지 않은 소상공인 사이의 격차가 급속히 벌어지고 있습니다:</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card" style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);">
+                        <div class="number">35%</div>
+                        <div class="label">업무 효율성 향상<br>(AI 도입 사업체)</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                        <div class="number">-15%</div>
+                        <div class="label">상대적 경쟁력 하락<br>(AI 미도입 사업체)</div>
+                    </div>
+                </div>
+
+                <p><span class="highlight">온라인 사업을 하는 지금 시대에 AI는 선택이 아닌 필수</span>입니다. AI를 사용하지 않으면 뒤처지는 시대가 이미 시작됐습니다.</p>
+
+                <div class="case-study">
+                    <h4>월 200만원 절약한 실제 치킨집 사례</h4>
+                    <p>서울 강남구에 위치한 한 치킨집은 AI 주문 관리 시스템을 도입한 후 다음과 같은 효과를 봤습니다:</p>
+                    
+                    <ul style="margin: 15px 0; padding-left: 20px;">
+                        <li><strong>인건비 절약:</strong> 주문 접수 알바 2명 → 0명 (월 160만원 절약)</li>
+                        <li><strong>실수 감소:</strong> 주문 착오로 인한 손실 90% 감소 (월 40만원 절약)</li>
+                        <li><strong>재고 관리:</strong> AI 예측으로 폐기 손실 60% 감소 (월 80만원 절약)</li>
+                        <li><strong>고객 만족도:</strong> 24시간 자동 응답으로 고객 불만 50% 감소</li>
+                    </ul>
+                    
+                    <p><strong>총 절약 효과: 월 280만원 (AI 도구 비용 월 8만원 차감 시 순 절약 272만원)</strong></p>
+                </div>
+
+                <h3 style="color: #667eea; font-size: 1.5em; margin: 40px 0 20px 0;">💪 AI에 대한 두려움을 가진 여러분께</h3>
+
+                <p>AI라는 말이 어려워 보이고, 투자 대비 효과를 못 볼까 봐 겁이 나고, 어떻게 사용해야 할지 몰라서 관심조차 없을 수 있습니다.</p>
+
+                <p>하지만 <span class="emphasis">아주 기본부터 하나씩 익혀나가다 보면, 아주 편하게 AI에게 업무를 맡기는 당신을 발견하게 될 것이라 확신합니다.</span></p>
+
+                <div class="promise-section">
+                    <h3>이 책으로 얻을 수 있는 구체적 성과 3가지</h3>
+                    <ul class="promise-list">
+                        <li><strong>30일 내 업무 효율 20% 개선:</strong> 반복 업무 자동화로 하루 2시간 이상 절약</li>
+                        <li><strong>월 평균 150만원 비용 절감:</strong> 인건비, 외주비, 마케팅비 등 각종 비용 절약</li>
+                        <li><strong>경쟁사 대비 우위 확보:</strong> AI 활용으로 고객 서비스 품질 향상 및 신속한 의사결정</li>
+                    </ul>
+                </div>
+
+                <div class="author-note">
+                    <p><strong>"더 늦기 전에 AI의 첫걸음을 꼭 내디디시기 바랍니다."</strong></p>
+                    <p>- 여러분과 같은 소상공인, 마케팅 대행사 대표</p>
+                </div>
+
+                <p style="text-align: center; margin-top: 40px; font-size: 1.1em; color: #667eea; font-weight: 500;">
+                    이제 함께 AI 비즈니스 여정을 시작해보겠습니다.<br>
+                    준비되셨나요?
+                </p>
+            </section>
+
+            <!-- 여기에 이어서 PART 1, 2, 3, 4, 5가 추가될 예정 -->
+            
+        </div>
+    </div>
+</body>
+</html>
